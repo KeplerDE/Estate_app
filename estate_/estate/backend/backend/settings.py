@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'listings.apps.ListingsConfig',
     'django.contrib.gis',
+    'users.apps.UsersConfig',
 
 ]
 
@@ -86,8 +87,12 @@ WSGI_APPLICATION = "backend.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
+        'NAME': 'Ati_estate_db',
+        'USER': 'postgres',
+        'PASSWORD': '1142',
+        'HOST': 'localhost',
+        'PORT': '5433'
     }
 }
 
@@ -126,3 +131,5 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTH_USER_MODEL = 'users.User'
