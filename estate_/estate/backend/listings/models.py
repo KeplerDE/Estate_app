@@ -1,4 +1,3 @@
-from django.db import models
 from random import choices
 from django.utils import timezone
 from django.contrib.gis.geos import Point
@@ -7,13 +6,11 @@ from django.contrib.gis.db import models
 class Listing(models.Model):
     title = models.CharField(max_length=150)
     description = models.TextField(null=True, blank=True)
-    area = models.CharField(max_length=20, blank=True, null=True)
     choices_area = (
         ('Inner London', 'Inner London'),
         ('Outer London', 'Outer London'),
     )
-    area = models.CharField(max_length=20, blank=True,
-                            null=True, choices = choices_area)
+    area = models.CharField(max_length=20, blank=True, null=True, choices=choices_area)
     borough = models.CharField(max_length=50, blank=True, null=True)
     choices_listing_type = (
         ('House', 'House'),
@@ -42,3 +39,7 @@ class Listing(models.Model):
     date_posted = models.DateTimeField(default=timezone.now)
     location = models.PointField(blank=True, null=True, srid=4326)
 
+
+
+    def __str__(self):
+        return self.title
