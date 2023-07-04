@@ -14,7 +14,7 @@ class ListingForm(forms.ModelForm):
         model = Listing
         fields = ['title', 'description', 'area', 'borough', 'listing_type', 'property_status', 'price', 'rental_frequency',
                   'rooms', 'furnished', 'poll', 'elevator', 'cctv', 'parking', 'date_posted', 'location',
-                  'latitude', 'longitude']
+                  'latitude', 'longitude', 'picture1', 'picture2', 'picture3', 'picture4', 'picture5']
     latitude = forms.FloatField()
     longitude = forms.FloatField()
 
