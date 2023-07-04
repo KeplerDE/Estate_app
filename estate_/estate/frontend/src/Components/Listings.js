@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Axios from "axios";
+
 // React leaflet
 import {
 	MapContainer,
@@ -61,9 +63,9 @@ const useStyles = makeStyles({
 });
 
 function Listings() {
-	fetch("http://127.0.0.1:8000/api/listings")
-		.then((response) => response.json())
-		.then((data) => console.log(data));
+	// fetch("http://127.0.0.1:8000/api/listings")
+	// 	.then((response) => response.json())
+	// 	.then((data) => console.log(data));
 
 	const navigate = useNavigate();
 	const classes = useStyles();
@@ -106,12 +108,62 @@ function Listings() {
 		[51.51, -0.1],
 		[51.51, -0.12],
 	];
+	const [allListings, setAllListings] = useState([]);
+	const [dataIsLoading, setDataIsLoading] = useState(true);
 
+	useEffect(() => {
+		const source = Axios.CancelToken.source();
+		async function GetAllListings() {
+			try {
+				const response = await Axios.get(
+					"http://127.0.0.1:8000/api/listings",
+					{ cancelToken: source.token }
+				);
+
+				setAllListings(response.data);
+				setDataIsLoading(false);
+			} catch (error) {}
+		}
+		GetAllListings();
+		return () => {
+			source.cancel();
+		};
+	}, []);
+
+	if (dataIsLoading === true) {
+		return (
+			<Grid
+				container
+				justifyContent="center"
+				alignItems="center"
+				style={{ height: "100vh" }}
+			>
+				<CircularProgress />
+			</Grid>
+		);
+	}
+
+	if (dataIsLoading === false) {
+		console.log(allListings[0].location)
+	}
+
+	if (dataIsLoading === true) {
+		return (
+			<Grid
+				container
+				justifyContent="center"
+				alignItems="center"
+				style={{ height: "100vh" }}
+			>
+				<CircularProgress />
+			</Grid>
+		);
+	}
 
 	return (
 		<Grid container>
 			<Grid item xs={4}>
-				{myListings.map((listing) => {
+				{allListings.map((listing) => {
 					return (
 						<Card key={listing.id} className={classes.cardStyle}>
 							<CardHeader

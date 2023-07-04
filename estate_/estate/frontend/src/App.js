@@ -10,6 +10,7 @@ import Header from "./Components/Header";
 import Home from "./Components/Home";
 import Login from "./Components/Login";
 import Listings from "./Components/Listings";
+import Testing from "./Components/Testing";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/" element={<Home />}/>
           <Route path="/login" element={<Login />}/>
           <Route path="/listings" element={<Listings />}/>
+          <Route path="/testing" element={<Testing />}/>
         </Routes>
       </BrowserRouter>
     </StyledEngineProvider>
