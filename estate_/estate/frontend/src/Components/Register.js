@@ -78,7 +78,8 @@ function Register() {
       </form>
       <Grid item container justifyContent="center">
         <Typography variant="small">Already have an account?
-          <span style={{ cursor: "pointer", color: "green" }}>
+          <span onClick={()=>navigate('/login')}
+                style={{ cursor: "pointer", color: "green" }}>
             Sign IN</span> </Typography>
       </Grid>
     </div>
