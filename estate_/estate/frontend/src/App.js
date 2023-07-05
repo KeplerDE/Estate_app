@@ -11,6 +11,7 @@ import Home from "./Components/Home";
 import Login from "./Components/Login";
 import Listings from "./Components/Listings";
 import Testing from "./Components/Testing";
+import Register from "./Components/Register";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/login" element={<Login />}/>
           <Route path="/listings" element={<Listings />}/>
           <Route path="/testing" element={<Testing />}/>
+          <Route path="/register" element={<Register />}/>
         </Routes>
       </BrowserRouter>
     </StyledEngineProvider>
