@@ -49,7 +49,7 @@ function Register() {
 		serverMessageNumericPassword: "",
 	};
 
-	function ReducerFuction(draft, action) {
+	function ReducerFunction(draft, action) {
 		switch (action.type) {
 			case "catchUsernameChange":
 				draft.usernameValue = action.usernameChosen;
@@ -152,7 +152,7 @@ function Register() {
 		}
 	}
 
-	const [state, dispatch] = useImmerReducer(ReducerFuction, initialState);
+	const [state, dispatch] = useImmerReducer(ReducerFunction, initialState);
 
 	function FormSubmit(e) {
 		e.preventDefault();

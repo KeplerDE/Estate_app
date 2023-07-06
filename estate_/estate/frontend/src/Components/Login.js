@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Grid, Typography, Button, TextField } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import Axios from "axios";
+import { useImmerReducer } from "use-immer";
 
 const useStyles = makeStyles({
   formContainer: {
@@ -26,6 +28,61 @@ const useStyles = makeStyles({
 function Login() {
   const classes = useStyles();
   const navigate = useNavigate();
+  const initialState = {
+      usernameValue: "",
+      passwordValue: "",
+      sendRequest: 0,
+  }
+  function ReducerFunction(draft, action) {
+  switch (action.type) {
+    case "catchUsernameChange":
+      draft.usernameValue = action.usernameChosen;
+      break;
+    case "catchEmailChange":
+      draft.passwordValue = action.passwordChosen;
+      break;
+    case "changeSendRequest":
+      draft.sendRequest = draft.sendRequest + 1;
+      break;
+  }
+}
+
+
+  const [state, dispatch] = useImmerReducer(ReducerFunction, initialState);
+
+  function FormSubmit(e) {
+		e.preventDefault();
+        console.log("the form has submitted")
+        // dispatch({type: "changeSendRequest"})
+	}
+
+  useEffect(() => {
+		if (state.sendRequest) {
+			const source = Axios.CancelToken.source();
+			async function SignIn() {
+				try {
+					const response = await Axios.post(
+						"http://127.0.0.1:8000/api-auth-djoser/users/token/login",
+						{
+							username: state.usernameValue,
+							password: state.passwordValue,
+						},
+						{
+							cancelToken: source.token,
+						}
+					);
+                    console.log(response)
+					dispatch({ type: "openTheSnack" });
+				} catch (error) {
+					console.log(error.response);
+				}
+			}
+			SignIn();
+			return () => {
+				source.cancel();
+			};
+		}
+  }, [state.sendRequest]);
 
   return (
     <div className={classes.formContainer}>
@@ -38,6 +95,12 @@ function Login() {
             variant="outlined"
             fullWidth
             type="password"
+    		onChange={(e) =>
+    	        dispatch({
+    		        type: "catchUsernameChange",
+    		        usernameChosen: e.target.value,
+    	        })
+            }
           />
         </Grid>
 
@@ -48,6 +111,12 @@ function Login() {
             variant="outlined"
             fullWidth
             type="password"
+			onChange={(e) =>
+				dispatch({
+					type: "catchPasswordChange",
+					passwordChosen: e.target.value,
+				})
+			}
           />
         </Grid>
 
