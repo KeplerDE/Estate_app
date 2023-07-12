@@ -15,12 +15,9 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
-// Contexts
-// import StateContext from "../Contexts/StateContext";
-// import DispatchContext from "../Contexts/DispatchContext";
+//Contexts
 
-// Components
-// import CustomCard from "./CustomCard";
+import DispatchContext from "../Contexts/DispatchContext";
 
 const useStyles = makeStyles({
 	leftNav: {
@@ -96,15 +93,43 @@ function Header() {
 						<Typography variant="h6" >Agencies</Typography>{" "}
 					</Button>
 				</div>
-				<div className={classes.rightNav}>
-					<Button className={classes.propertyBtn}>Add Property</Button> 
-					<Button
-					 className={classes.loginBtn}
-					 onClick={() => navigate("/login")}
-					 >
-						Login
-						</Button>
+					<div className={classes.rightNav}>
+						<Button className={classes.propertyBtn}>Add Property</Button>
+						{/*	{userIsLogged ? (*/}
+						{/*	<Button*/}
+						{/*		sx={{*/}
+						{/*			backgroundColor: "white",*/}
+						{/*			color: "black",*/}
+						{/*			width: "15rem",*/}
+						{/*			fontSize: "1.1rem",*/}
+						{/*			marginLeft: "1rem",*/}
+						{/*			"&:hover": {*/}
+						{/*				backgroundColor: "green",*/}
+						{/*			},*/}
+						{/*		}}*/}
+						{/*		onClick={handleClick}*/}
+						{/*		// onClick={() => navigate("/login")}*/}
+						{/*	>*/}
+						{/*		{userUsername}*/}
+						{/*	</Button>*/}
+						{/*) : (*/}
+						{/*	<Button*/}
+						{/*		sx={{*/}
+						{/*			backgroundColor: "white",*/}
+						{/*			color: "black",*/}
+						{/*			width: "15rem",*/}
+						{/*			fontSize: "1.1rem",*/}
+						{/*			marginLeft: "1rem",*/}
+						{/*			"&:hover": {*/}
+						{/*				backgroundColor: "green",*/}
+						{/*			},*/}
+						{/*		}}*/}
+						{/*		onClick={() => navigate("/login")}*/}
+						{/*	>*/}
+						{/*		Login*/}
+						{/*	</Button>*/}
 				</div>
+
 				</Toolbar>
 			</AppBar>
 	);

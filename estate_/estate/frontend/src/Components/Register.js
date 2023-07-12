@@ -219,13 +219,13 @@ function Register() {
 		}
 	}, [state.sendRequest]);
 
-	useEffect(() => {
-		if (state.openSnack) {
-			setTimeout(() => {
-				navigate("/created");
-			}, 1500);
-		}
-	}, [state.openSnack]);
+	// useEffect(() => {
+	// 	if (state.openSnack) {
+	// 		setTimeout(() => {
+	// 			navigate("/created");
+	// 		}, 1500);
+	// 	}
+	// }, [state.openSnack]);
 
 	return (
 		<div
