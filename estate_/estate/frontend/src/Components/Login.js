@@ -32,6 +32,7 @@ function Login() {
       usernameValue: "",
       passwordValue: "",
       sendRequest: 0,
+      token: "",
   }
   function ReducerFunction(draft, action) {
   switch (action.type) {
@@ -40,13 +41,17 @@ function Login() {
       break;
 
     case "catchPasswordChange":
-        draft.passwordValue = action.passwordChosen;
-        draft.serverError = false;
-        break;
+      draft.passwordValue = action.passwordChosen;
+      draft.serverError = false;
+      break;
 
     case "changeSendRequest":
       draft.sendRequest = draft.sendRequest + 1;
       break;
+
+    case "catchToken":
+	  draft.token = action.tokenValue;
+	  break;
   }
 }
 
@@ -74,10 +79,11 @@ function Login() {
 							cancelToken: source.token,
 						}
 					);
-
-					dispatch({ type: "openTheSnack" });
+                    console.log(response)
+                    dispatch({type: 'catchToken', tokenValue: response.data.auth_token})
 				} catch (error) {
 					console.log(error.response);
+
 				}
 			}
 			SignIn();
@@ -86,7 +92,37 @@ function Login() {
 			};
 		}
   }, [state.sendRequest]);
+// Get user info
+  useEffect(() => {
+  	if (state.token !== "") {
+  		const source = Axios.CancelToken.source();
+  		async function GetUserInfo() {
+  			try {
+  				const response = await Axios.get(
+  					"http://127.0.0.1:8000/api-auth-djoser/users/me/",
+  					{
+  						headers: { Authorization: "Token ".concat(state.token) },
+  					},
+  					{
+  						cancelToken: source.token,
+  					}
+  				);
 
+  				// GlobalDispatch({
+  				// 	type: "userSignsIn",
+  				// 	usernameInfo: response.data.username,
+  				// 	emailInfo: response.data.email,
+  				// 	IdInfo: response.data.id,
+  				// });
+  				dispatch({ type: "openTheSnack" });
+  			} catch (error) {}
+  		}
+  		GetUserInfo();
+  		return () => {
+  			source.cancel();
+  		};
+  	}
+  }, [state.token]);
   return (
     <div className={classes.formContainer}>
       <form onSubmit={FormSubmit}>
