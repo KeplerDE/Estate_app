@@ -15,9 +15,9 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
-//Contexts
-
+// Contexts
 import DispatchContext from "../Contexts/DispatchContext";
+import StateContext from "../Contexts/StateContext";
 
 const useStyles = makeStyles({
 	leftNav: {
@@ -71,7 +71,9 @@ const useStyles = makeStyles({
 
 function Header() {
 	const classes = useStyles(); 
-	const navigate = useNavigate(); 
+	const navigate = useNavigate();
+
+	const GlobalState = useContext(StateContext);
 	return (
 		<AppBar position="static" style={{ backgroundColor: "black" }}>
 			<Toolbar >
@@ -95,39 +97,20 @@ function Header() {
 				</div>
 					<div className={classes.rightNav}>
 						<Button className={classes.propertyBtn}>Add Property</Button>
-						{/*	{userIsLogged ? (*/}
-						{/*	<Button*/}
-						{/*		sx={{*/}
-						{/*			backgroundColor: "white",*/}
-						{/*			color: "black",*/}
-						{/*			width: "15rem",*/}
-						{/*			fontSize: "1.1rem",*/}
-						{/*			marginLeft: "1rem",*/}
-						{/*			"&:hover": {*/}
-						{/*				backgroundColor: "green",*/}
-						{/*			},*/}
-						{/*		}}*/}
-						{/*		onClick={handleClick}*/}
-						{/*		// onClick={() => navigate("/login")}*/}
-						{/*	>*/}
-						{/*		{userUsername}*/}
-						{/*	</Button>*/}
-						{/*) : (*/}
-						{/*	<Button*/}
-						{/*		sx={{*/}
-						{/*			backgroundColor: "white",*/}
-						{/*			color: "black",*/}
-						{/*			width: "15rem",*/}
-						{/*			fontSize: "1.1rem",*/}
-						{/*			marginLeft: "1rem",*/}
-						{/*			"&:hover": {*/}
-						{/*				backgroundColor: "green",*/}
-						{/*			},*/}
-						{/*		}}*/}
-						{/*		onClick={() => navigate("/login")}*/}
-						{/*	>*/}
-						{/*		Login*/}
-						{/*	</Button>*/}
+
+						{GlobalState.userIsLogged  ? (
+						<Button className={classes.loginBtn}
+						// onClick={() => navigate("/login")}
+						>
+							{GlobalState.userUsername}
+						</Button>
+						) : (
+							<Button className={classes.loginBtn}
+							onClick={() => navigate("/login")}
+								>
+								Login
+							</Button>
+							)}
 				</div>
 
 				</Toolbar>
