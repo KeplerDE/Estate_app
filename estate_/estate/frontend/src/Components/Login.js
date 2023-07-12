@@ -38,9 +38,12 @@ function Login() {
     case "catchUsernameChange":
       draft.usernameValue = action.usernameChosen;
       break;
-    case "catchEmailChange":
-      draft.passwordValue = action.passwordChosen;
-      break;
+
+    case "catchPasswordChange":
+        draft.passwordValue = action.passwordChosen;
+        draft.serverError = false;
+        break;
+
     case "changeSendRequest":
       draft.sendRequest = draft.sendRequest + 1;
       break;
@@ -53,7 +56,7 @@ function Login() {
   function FormSubmit(e) {
 		e.preventDefault();
         console.log("the form has submitted")
-        // dispatch({type: "changeSendRequest"})
+        dispatch({type: "changeSendRequest"})
 	}
 
   useEffect(() => {
@@ -62,7 +65,7 @@ function Login() {
 			async function SignIn() {
 				try {
 					const response = await Axios.post(
-						"http://127.0.0.1:8000/api-auth-djoser/users/token/login",
+						"http://127.0.0.1:8000/api-auth-djoser/token/login",
 						{
 							username: state.usernameValue,
 							password: state.passwordValue,
@@ -71,7 +74,7 @@ function Login() {
 							cancelToken: source.token,
 						}
 					);
-                    console.log(response)
+
 					dispatch({ type: "openTheSnack" });
 				} catch (error) {
 					console.log(error.response);
@@ -86,7 +89,7 @@ function Login() {
 
   return (
     <div className={classes.formContainer}>
-      <form>
+      <form onSubmit={FormSubmit}>
         <Grid item container justifyContent="center">
           <Typography variant="h5">Sign IN</Typography>
           <TextField
@@ -94,7 +97,6 @@ function Login() {
             label="Username"
             variant="outlined"
             fullWidth
-            type="password"
     		onChange={(e) =>
     	        dispatch({
     		        type: "catchUsernameChange",
