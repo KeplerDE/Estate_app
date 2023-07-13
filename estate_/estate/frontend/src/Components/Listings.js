@@ -167,18 +167,18 @@ function Listings() {
 					return (
 						<Card key={listing.id} className={classes.cardStyle}>
 							<CardHeader
-								// action={
-									// <IconButton
-									// 	aria-label="settings"
-									// 	onClick={() =>
-									// 		state.mapInstance.flyTo(
-									// 			[listing.latitude, listing.longitude],
-									// 			16
-									// 		)
-									// 	}
-									// >
-									// </IconButton>
-								// }
+								action={
+									<IconButton
+										aria-label="settings"
+										onClick={() =>
+											state.mapInstance.flyTo(
+												[listing.latitude, listing.longitude],
+												16
+											)
+										}
+									>
+									</IconButton>
+								}
 								title={listing.title}
 							/>
 							<CardMedia

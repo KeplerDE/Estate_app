@@ -14,6 +14,7 @@ import Login from "./Components/Login";
 import Listings from "./Components/Listings";
 import Testing from "./Components/Testing";
 import Register from "./Components/Register";
+import AddProperty from "./Components/AddProperty";
 
 //Contexts
 import DispatchContext from "./Contexts/DispatchContext";
@@ -76,6 +77,7 @@ function App() {
               <Route path="/listings" element={<Listings />}/>
               <Route path="/testing" element={<Testing />}/>
               <Route path="/register" element={<Register />}/>
+              <Route path="/addproperty" element={<AddProperty />} />
             </Routes>
           </BrowserRouter>
         </StyledEngineProvider>
