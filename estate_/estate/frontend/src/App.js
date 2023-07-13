@@ -38,6 +38,9 @@ function App() {
 			draft.userIsLogged = true;
 			break;
 
+        case "logout":
+		    draft.userIsLogged = false;
+		    break;
   }
 }
 
@@ -50,6 +53,12 @@ function App() {
           localStorage.setItem("theUserEmail", state.userEmail);
           localStorage.setItem("theUserId", state.userId);
           localStorage.setItem("theUserToken", state.userToken);
+
+      } else {
+			localStorage.removeItem("theUserUsername");
+			localStorage.removeItem("theUserEmail");
+			localStorage.removeItem("theUserId");
+			localStorage.removeItem("theUserToken");
       }
   }, [state.userIsLogged]);
 
