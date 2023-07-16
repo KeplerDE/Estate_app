@@ -15,6 +15,8 @@ import Listings from "./Components/Listings";
 import Testing from "./Components/Testing";
 import Register from "./Components/Register";
 import AddProperty from "./Components/AddProperty";
+import Profile from "./Components/Profile";
+import ProfileUpdate from "./Components/Profile";
 
 //Contexts
 import DispatchContext from "./Contexts/DispatchContext";
@@ -78,6 +80,8 @@ function App() {
               <Route path="/testing" element={<Testing />}/>
               <Route path="/register" element={<Register />}/>
               <Route path="/addproperty" element={<AddProperty />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/profile_update" element={<ProfileUpdate />} />
             </Routes>
           </BrowserRouter>
         </StyledEngineProvider>
