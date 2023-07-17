@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import Axios from "axios";
-
+import { useImmerReducer } from "use-immer";
+import { useNavigate } from "react-router-dom";
 // React leaflet
 import {
 	MapContainer,
@@ -9,7 +9,8 @@ import {
 	Marker,
 	Popup,
 	Polyline,
-  Polygon,
+	Polygon,
+	useMap,
 } from "react-leaflet";
 import { Icon } from "leaflet";
 // MUI
@@ -26,8 +27,8 @@ import {
 	IconButton,
 	CardActions,
 } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 
+import RoomIcon from "@mui/icons-material/Room";
 
 // Map icons
 import houseIconPng from "./Assets/Mapicons/house.png";
@@ -38,37 +39,8 @@ import img1 from "./Assets/img1.jpg";
 import myListings from "./Assets/Data/Dummydata";
 import polygonOne from "./Shape";
 
-const useStyles = makeStyles({
-	cardStyle: {
-		margin: "0.5rem",
-		border: "1px solid black",
-		position: "relative",
-	},
-	pictureStyle: {
-		paddingRight: "1rem",
-		paddingLeft: "1rem",
-		height: "20rem",
-		width: "30rem",
-		cursor: "pointer",
-	},
-	priceOverlay: {
-		position: "absolute",
-		backgroundColor: "green",
-		zIndex: "1000",
-		color: "white",
-		top: "100px",
-		left: "20px",
-		padding: "5px",
-	},
-});
-
 function Listings() {
-	// fetch("http://127.0.0.1:8000/api/listings")
-	// 	.then((response) => response.json())
-	// 	.then((data) => console.log(data));
-
 	const navigate = useNavigate();
-	const classes = useStyles();
 	const houseIcon = new Icon({
 		iconUrl: houseIconPng,
 		iconSize: [40, 40],
@@ -91,7 +63,21 @@ function Listings() {
 		mapInstance: null,
 	};
 
+	function ReducerFuction(draft, action) {
+		switch (action.type) {
+			case "getMap":
+				draft.mapInstance = action.mapData;
+				break;
+		}
+	}
 
+	const [state, dispatch] = useImmerReducer(ReducerFuction, initialState);
+
+	function TheMapComponent() {
+		const map = useMap();
+		dispatch({ type: "getMap", mapData: map });
+		return null;
+	}
 
 	function GoEast() {
 		setLatitude(51.46567014039476);
@@ -108,6 +94,7 @@ function Listings() {
 		[51.51, -0.1],
 		[51.51, -0.12],
 	];
+
 	const [allListings, setAllListings] = useState([]);
 	const [dataIsLoading, setDataIsLoading] = useState(true);
 
@@ -116,7 +103,7 @@ function Listings() {
 		async function GetAllListings() {
 			try {
 				const response = await Axios.get(
-					"http://127.0.0.1:8000/api/listings",
+					"https://www.lbrepcourseapi.com/api/listings/",
 					{ cancelToken: source.token }
 				);
 
@@ -143,29 +130,19 @@ function Listings() {
 		);
 	}
 
-	if (dataIsLoading === false) {
-		console.log(allListings[0].location)
-	}
-
-	if (dataIsLoading === true) {
-		return (
-			<Grid
-				container
-				justifyContent="center"
-				alignItems="center"
-				style={{ height: "100vh" }}
-			>
-				<CircularProgress />
-			</Grid>
-		);
-	}
-
 	return (
 		<Grid container>
 			<Grid item xs={4}>
 				{allListings.map((listing) => {
 					return (
-						<Card key={listing.id} className={classes.cardStyle}>
+						<Card
+							key={listing.id}
+							style={{
+								margin: "0.5rem",
+								border: "1px solid black",
+								position: "relative",
+							}}
+						>
 							<CardHeader
 								action={
 									<IconButton
@@ -177,12 +154,19 @@ function Listings() {
 											)
 										}
 									>
+										<RoomIcon />
 									</IconButton>
 								}
 								title={listing.title}
 							/>
 							<CardMedia
-								className={classes.pictureStyle}
+								style={{
+									paddingRight: "1rem",
+									paddingLeft: "1rem",
+									height: "20rem",
+									width: "30rem",
+									cursor: "pointer",
+								}}
 								component="img"
 								image={listing.picture1}
 								alt={listing.title}
@@ -195,14 +179,34 @@ function Listings() {
 							</CardContent>
 
 							{listing.property_status === "Sale" ? (
-								<Typography className={classes.priceOverlay}>
+								<Typography
+									style={{
+										position: "absolute",
+										backgroundColor: "green",
+										zIndex: "1000",
+										color: "white",
+										top: "100px",
+										left: "20px",
+										padding: "5px",
+									}}
+								>
 									{listing.listing_type}: $
 									{listing.price
 										.toString()
 										.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
 								</Typography>
 							) : (
-								<Typography className={classes.priceOverlay}>
+								<Typography
+									style={{
+										position: "absolute",
+										backgroundColor: "green",
+										zIndex: "1000",
+										color: "white",
+										top: "100px",
+										left: "20px",
+										padding: "5px",
+									}}
+								>
 									{listing.listing_type}: $
 									{listing.price
 										.toString()
@@ -225,21 +229,16 @@ function Listings() {
 					<div style={{ height: "100vh" }}>
 						<MapContainer
 							center={[51.505, -0.09]}
-							zoom={14}
+							zoom={12}
 							scrollWheelZoom={true}
 						>
 							<TileLayer
 								attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 								url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 							/>
-              <Polyline positions={polyOne} weight={10} color="green"/>
-              <Polygon positions={polygonOne}
-              color="black"
-              fillColor="green"
-              fillOpacity={0.7}
-                />
+							<TheMapComponent />
 
-							{myListings.map((listing) => {
+							{allListings.map((listing) => {
 								function IconDisplay() {
 									if (listing.listing_type === "House") {
 										return houseIcon;
@@ -253,8 +252,7 @@ function Listings() {
 									<Marker
 										key={listing.id}
 										icon={IconDisplay()}
-										position={[
-                      listing.location.coordinates[0], listing.location.coordinates[1]]}
+										position={[listing.latitude, listing.longitude]}
 									>
 										<Popup>
 											<Typography variant="h5">{listing.title}</Typography>
