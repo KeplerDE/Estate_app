@@ -81,7 +81,7 @@ function ListingDetail() {
 		disabledBtn: false,
 	};
 
-	function ReducerFuction(draft, action) {
+	function ReducerFunction(draft, action) {
 		switch (action.type) {
 			case "catchListingInfo":
 				draft.listingInfo = action.listingObject;
@@ -109,14 +109,14 @@ function ListingDetail() {
 		}
 	}
 
-	const [state, dispatch] = useImmerReducer(ReducerFuction, initialState);
+	const [state, dispatch] = useImmerReducer(ReducerFunction, initialState);
 
 	// request to get listing info
 	useEffect(() => {
 		async function GetListingInfo() {
 			try {
 				const response = await Axios.get(
-					`https://www.lbrepcourseapi.com/api/listings/${params.id}/`
+					`http://127.0.0.1:8000//api/listings/${params.id}/`
 				);
 
 				dispatch({
@@ -134,7 +134,7 @@ function ListingDetail() {
 			async function GetProfileInfo() {
 				try {
 					const response = await Axios.get(
-						`https://www.lbrepcourseapi.com/api/profiles/${state.listingInfo.seller}/`
+						`http://127.0.0.1:8000/api/profiles/${state.listingInfo.seller}/`
 					);
 
 					dispatch({
@@ -186,7 +186,7 @@ function ListingDetail() {
 		if (confirmDelete) {
 			try {
 				const response = await Axios.delete(
-					`https://www.lbrepcourseapi.com/api/listings/${params.id}/delete/`
+					`http://127.0.0.1:8000//api/listings/${params.id}/delete/`
 				);
 
 				dispatch({ type: "openTheSnack" });

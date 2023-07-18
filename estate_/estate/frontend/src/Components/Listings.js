@@ -63,7 +63,7 @@ function Listings() {
 		mapInstance: null,
 	};
 
-	function ReducerFuction(draft, action) {
+	function ReducerFunction(draft, action) {
 		switch (action.type) {
 			case "getMap":
 				draft.mapInstance = action.mapData;
@@ -71,7 +71,7 @@ function Listings() {
 		}
 	}
 
-	const [state, dispatch] = useImmerReducer(ReducerFuction, initialState);
+	const [state, dispatch] = useImmerReducer(ReducerFunction, initialState);
 
 	function TheMapComponent() {
 		const map = useMap();
@@ -103,7 +103,7 @@ function Listings() {
 		async function GetAllListings() {
 			try {
 				const response = await Axios.get(
-					"https://www.lbrepcourseapi.com/api/listings/",
+					"http://127.0.0.1:8000/api/listings/",
 					{ cancelToken: source.token }
 				);
 

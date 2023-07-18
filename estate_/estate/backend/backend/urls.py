@@ -1,7 +1,7 @@
 """backend URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.1/topics/http/urls/
+    https://docs.djangoproject.com/en/4.0/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -22,11 +22,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/listings/', listings_api_views.ListingList.as_view()),
     path('api/listings/create/', listings_api_views.ListingCreate.as_view()),
+    path('api/listings/<int:pk>/', listings_api_views.ListingDetail.as_view()),
+    path('api/listings/<int:pk>/delete/',
+         listings_api_views.ListingDelete.as_view()),
     path('api/listings/<int:pk>/update/',
          listings_api_views.ListingUpdate.as_view()),
     path('api/profiles/', users_api_views.ProfileList.as_view()),
@@ -36,7 +38,8 @@ urlpatterns = [
 
     path('api-auth-djoser/', include('djoser.urls')),
     path('api-auth-djoser/', include('djoser.urls.authtoken')),
-]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
