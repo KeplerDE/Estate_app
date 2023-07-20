@@ -348,7 +348,7 @@ function AddProperty() {
 		},
 	};
 
-	function ReducerFunction(draft, action) {
+	function ReducerFuction(draft, action) {
 		switch (action.type) {
 			case "catchTitleChange":
 				draft.titleValue = action.titleChosen;
@@ -558,7 +558,7 @@ function AddProperty() {
 		}
 	}
 
-	const [state, dispatch] = useImmerReducer(ReducerFunction, initialState);
+	const [state, dispatch] = useImmerReducer(ReducerFuction, initialState);
 
 	function TheMapComponent() {
 		const map = useMap();

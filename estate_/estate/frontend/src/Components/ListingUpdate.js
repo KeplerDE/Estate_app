@@ -98,7 +98,7 @@ function ListingUpdate(props) {
 		disabledBtn: false,
 	};
 
-	function ReducerFuction(draft, action) {
+	function ReducerFunction(draft, action) {
 		switch (action.type) {
 			case "catchTitleChange":
 				draft.titleValue = action.titleChosen;
@@ -166,7 +166,7 @@ function ListingUpdate(props) {
 		}
 	}
 
-	const [state, dispatch] = useImmerReducer(ReducerFuction, initialState);
+	const [state, dispatch] = useImmerReducer(ReducerFunction, initialState);
 
 	function FormSubmit(e) {
 		e.preventDefault();

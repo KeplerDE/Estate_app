@@ -79,6 +79,7 @@ function Listings() {
 		return null;
 	}
 
+
 	function GoEast() {
 		setLatitude(51.46567014039476);
 		setLongitude(0.2596173538795676);
@@ -228,6 +229,7 @@ function Listings() {
 				<AppBar position="sticky">
 					<div style={{ height: "100vh" }}>
 						<MapContainer
+
 							center={[51.505, -0.09]}
 							zoom={12}
 							scrollWheelZoom={true}

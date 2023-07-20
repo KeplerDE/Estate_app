@@ -24,6 +24,7 @@ import ListingDetail from "./Components/ListingDetail";
 //Contexts
 import DispatchContext from "./Contexts/DispatchContext";
 import StateContext from "./Contexts/StateContext";
+
 function App() {
 	const initialState = {
 		userUsername: localStorage.getItem("theUserUsername"),

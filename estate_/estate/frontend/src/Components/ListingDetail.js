@@ -12,7 +12,8 @@ import stadiumIconPng from "./Assets/Mapicons/stadium.png";
 import hospitalIconPng from "./Assets/Mapicons/hospital.png";
 import universityIconPng from "./Assets/Mapicons/university.png";
 
-
+// Components
+import ListingUpdate from "./ListingUpdate";
 
 // React Leaflet
 import {
@@ -81,7 +82,7 @@ function ListingDetail() {
 		disabledBtn: false,
 	};
 
-	function ReducerFunction(draft, action) {
+	function ReducerFuction(draft, action) {
 		switch (action.type) {
 			case "catchListingInfo":
 				draft.listingInfo = action.listingObject;
@@ -109,14 +110,14 @@ function ListingDetail() {
 		}
 	}
 
-	const [state, dispatch] = useImmerReducer(ReducerFunction, initialState);
+	const [state, dispatch] = useImmerReducer(ReducerFuction, initialState);
 
 	// request to get listing info
 	useEffect(() => {
 		async function GetListingInfo() {
 			try {
 				const response = await Axios.get(
-					`http://127.0.0.1:8000//api/listings/${params.id}/`
+					`http://127.0.0.1:8000/api/listings/${params.id}/`
 				);
 
 				dispatch({
@@ -186,7 +187,7 @@ function ListingDetail() {
 		if (confirmDelete) {
 			try {
 				const response = await Axios.delete(
-					`http://127.0.0.1:8000//api/listings/${params.id}/delete/`
+					`http://127.0.0.1:8000/api/listings/${params.id}/delete/`
 				);
 
 				dispatch({ type: "openTheSnack" });
@@ -492,7 +493,12 @@ function ListingDetail() {
 						>
 							Delete
 						</Button>
-
+						<Dialog open={open} onClose={handleClose} fullScreen>
+							<ListingUpdate
+								listingData={state.listingInfo}
+								closeDialog={handleClose}
+							/>
+						</Dialog>
 					</Grid>
 				) : (
 					""
